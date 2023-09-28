@@ -9,13 +9,17 @@ import { ConversationMapper } from "../mappers/conversation.mapper";
 
 export class ConversationDataSourceImpl implements ConversationDataSource {
   async update(updateConversationDto: UpdateConversationDto): Promise<ChatMessagesEntity> {
-    const { _id, text, from = "bot" } = updateConversationDto;
+    const { _id, text, from = "bot", image = "", name = "", icon = "", file = "" } = updateConversationDto;
     try {
       const chatMessages = await ChatMessagesModel.findById(_id);
       if (!chatMessages) throw CustomError.badRequest("Chat Messages not exists");
       const newConversation: any = new ConversationModel({
         text,
         from,
+        image,
+        name,
+        icon,
+        file,
       });
       if (!newConversation) throw CustomError.notFound("Conversation not found");
       await newConversation.save();
@@ -62,16 +66,15 @@ export class ConversationDataSourceImpl implements ConversationDataSource {
   }
   async removeByID(removeByIDConversationDto: RemoveByIDConversationDto): Promise<void> {
     const { _id } = removeByIDConversationDto;
-    console.log(_id)
+    console.log(_id);
     try {
-      
       // Encuentra la conversación que deseas eliminar por su _id
       const chatMessages = await ChatMessagesModel.findOne({ _id });
-  
+
       if (!chatMessages) {
         throw CustomError.notFound("Conversation not found");
       }
-  
+
       // Elimina la conversación de la base de datos
       await chatMessages.deleteOne();
     } catch (error) {
@@ -81,6 +84,4 @@ export class ConversationDataSourceImpl implements ConversationDataSource {
       throw CustomError.internalServer();
     }
   }
-  
-  
 }
