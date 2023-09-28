@@ -4,6 +4,7 @@ import { CreateConversationDto, CustomError, ChatMessagesEntity, ConversationEnt
 import { ConversationDataSource } from "../../domain/datasources/conversation.datasource";
 import { GetByIDConversationDto } from "../../domain/dtos/conversation/get-conversation.dto";
 import { UpdateConversationDto } from "../../domain/dtos/conversation/update-conversation.dto";
+import { RemoveByIDConversationDto } from "../../domain/dtos/conversation/remove-conversation.dto";
 import { ConversationMapper } from "../mappers/conversation.mapper";
 
 export class ConversationDataSourceImpl implements ConversationDataSource {
@@ -59,4 +60,27 @@ export class ConversationDataSourceImpl implements ConversationDataSource {
       throw CustomError.internalServer();
     }
   }
+  async removeByID(removeByIDConversationDto: RemoveByIDConversationDto): Promise<void> {
+    const { _id } = removeByIDConversationDto;
+    console.log(_id)
+    try {
+      
+      // Encuentra la conversación que deseas eliminar por su _id
+      const chatMessages = await ChatMessagesModel.findOne({ _id });
+  
+      if (!chatMessages) {
+        throw CustomError.notFound("Conversation not found");
+      }
+  
+      // Elimina la conversación de la base de datos
+      await chatMessages.deleteOne();
+    } catch (error) {
+      if (error instanceof CustomError) {
+        throw error;
+      }
+      throw CustomError.internalServer();
+    }
+  }
+  
+  
 }

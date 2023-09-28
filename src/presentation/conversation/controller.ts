@@ -4,7 +4,9 @@ import { ConversationRepository } from "../../domain/repositories/conversation.r
 import { CustomError } from "../../domain";
 import { CreateConversation } from "../../domain/useCases/create-conversation.useCases";
 import { GetByIDConversationDto } from "../../domain/dtos/conversation/get-conversation.dto";
+import { RemoveByIDConversationDto } from "../../domain/dtos/conversation/remove-conversation.dto";
 import { GetByIDConversation } from "../../domain/useCases/get-conversation.useCases";
+import { RemoveByIDConversation } from "../../domain/useCases/remove-coversation.useCase";
 
 export class ConversationController {
   constructor(private readonly conversationRepository: ConversationRepository) {}
@@ -36,4 +38,16 @@ export class ConversationController {
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };
+  removeByIDConversation = async (req: Request, res: Response) => {
+    const [error, removeByIDConversationDto] = RemoveByIDConversationDto.removeByID(req.params);
+    if (error) return res.status(400).json({ error });
+  
+    new RemoveByIDConversation(this.conversationRepository)
+      .execute(removeByIDConversationDto!) // Utiliza removeByIDConversationDto sin this.
+      .then((user) => res.json(user))
+      .catch((error) => this.handleError(error, res));
+  };
+  
+
 }
+

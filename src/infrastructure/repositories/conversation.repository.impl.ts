@@ -2,6 +2,7 @@ import { ChatMessagesEntity, ConversationEntity, ConversationRepository, CreateC
 import { ConversationDataSource } from "../../domain/datasources/conversation.datasource";
 import { GetByIDConversationDto } from "../../domain/dtos/conversation/get-conversation.dto";
 import { UpdateConversationDto } from "../../domain/dtos/conversation/update-conversation.dto";
+import { RemoveByIDConversationDto } from "../../domain/dtos/conversation/remove-conversation.dto";
 
 export class ConversationRepositoryImpl implements ConversationRepository {
   constructor(private readonly conversationDataSource: ConversationDataSource) {}
@@ -14,4 +15,8 @@ export class ConversationRepositoryImpl implements ConversationRepository {
   getByID(getByIDConversationDto: GetByIDConversationDto): Promise<ChatMessagesEntity> {
     return this.conversationDataSource.getByID(getByIDConversationDto);
   }
+  removeByID(removeByIDConversationDto: RemoveByIDConversationDto): Promise<ChatMessagesEntity> {
+    return this.conversationDataSource.getByID(removeByIDConversationDto);
+  }
+  
 }
