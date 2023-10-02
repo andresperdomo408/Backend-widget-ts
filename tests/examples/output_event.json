@@ -1,0 +1,56 @@
+{
+  "_id": "651aebd38601843660a72686",
+  "context": {
+    "originChannelCode": "100",
+    "session": {
+      "project": "61045f5214cfde001366e7bb",
+      "clientId": "63d86f6fd6871f4998d28d87"
+    }
+  },
+  "control": {
+    "operation": "OUTPUT",
+    "operationExtra": null,
+    "status": "NEW",
+    "extraInfo": []
+  },
+  "body": {
+    "data": {
+      "nodes": [
+        {
+          "id": "inicial",
+          "type": "MESSAGE",
+          "skip": true,
+          "text": [
+            "¡Hola! 👋 Bienvenido/a a la línea de atención de la Secretaría Distrital de Movilidad, especializada en Cursos Pedagógicos. ¿En qué podemos ayudarte hoy? 😊"
+          ],
+          "next": "opcion_inicial"
+        },
+        {
+          "id": "opcion_inicial",
+          "type": "OPTION",
+          "text": ["Por favor, selecciona el número de la opción que necesitas:\n"],
+          "validationMessage": "⚠ La opción seleccionada es inválida, por favor seleccione el número según corresponda:\n",
+          "options": [
+            {
+              "key": "1",
+              "label": "ejecutivo",
+              "value": "2"
+            }
+          ],
+          "next": [
+            {
+              "evalueate": [
+                {
+                  "node": "@THIST_NODE",
+                  "is": "2"
+                }
+              ],
+              "true": ""
+            }
+          ]
+        }
+      ],
+      "author": "573014558248"
+    }
+  }
+}
