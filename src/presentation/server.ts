@@ -4,6 +4,7 @@ import logger from "morgan";
 import http from "http";
 import socketio from "socket.io";
 import { Sockets } from "../infrastructure/sockets/socketRoutes";
+import { ChatBotWizardRoutes } from "./chatBotWizard";
 
 interface StartOptions {
   port: number;
@@ -54,5 +55,6 @@ export class Server {
 
   private configSockets() {
     new Sockets(this.io);
+    new ChatBotWizardRoutes(this.io);
   }
 }

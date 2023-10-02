@@ -4,6 +4,7 @@ import { UpdateConversation } from "../../domain/useCases/update-conversation.us
 import { ConversationDataSourceImpl } from "../datasources/conversation.datasource.impl";
 import { ConversationRepositoryImpl } from "../repositories/conversation.repository.impl";
 import { processFileUpload, processImageUpload } from "../utils/fileutils";
+import { snsSendMessage } from "../services/sns.service";
 
 export class Sockets {
   private io: SocketIOServer;
@@ -27,6 +28,7 @@ export class Sockets {
           .execute(updateConversationDto!)
           .then((chat) => {
             if (message.from !== "bot") {
+              snsSendMessage(chat, message.text, message.user);
               socket.emit("chat-message-response", `Su conversacion fue actualizada`);
             }
           })

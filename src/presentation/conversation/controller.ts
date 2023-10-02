@@ -41,13 +41,10 @@ export class ConversationController {
   removeByIDConversation = async (req: Request, res: Response) => {
     const [error, removeByIDConversationDto] = RemoveByIDConversationDto.removeByID(req.params);
     if (error) return res.status(400).json({ error });
-  
+
     new RemoveByIDConversation(this.conversationRepository)
-      .execute(removeByIDConversationDto!) // Utiliza removeByIDConversationDto sin this.
+      .execute(removeByIDConversationDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };
-  
-
 }
-
